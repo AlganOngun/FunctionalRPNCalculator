@@ -3,12 +3,6 @@
 #include <string>
 #include <vector>
 
-auto pop(const auto container) {
-  auto temp_container {container};
-  temp_container.pop_back();
-  return temp_container;
-}
-
 auto plus_operator(const std::vector<int>& container) {
   return fplus::fwd::apply(
       container,
