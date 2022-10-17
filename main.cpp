@@ -3,6 +3,13 @@
 #include <string>
 #include <vector>
 
+template<typename T> T getline_from_cin(const std::string& message) {
+  T temp;
+  std::cout << message;
+  std::getline(std::cin, temp);
+  return temp;
+}
+
 auto plus_operator(const std::vector<int>& container) {
   return fplus::fwd::apply(
       container,
@@ -52,10 +59,14 @@ auto parse(const std::vector<int>&& acc, const std::string& x) -> std::vector<in
   return {0};
 }
 
-int main() {
-  const auto input {std::string("8 2 / 5 2 * +")};
-  const auto tokens {fplus::split_by_token(std::string(" "), false, input)};
-  const auto result {fplus::last(fplus::fold_left(parse, std::vector<int> {}, tokens))};
+auto calculate(const std::vector<std::string>& tokens) {
+  return fplus::last(fplus::fold_left(parse, std::vector<int> {}, tokens));
+}
 
-  std::cout << result << std::endl;
+int main() {
+  const auto input {getline_from_cin<std::string>("RPN Notation: ")};
+  const auto tokens {fplus::split_by_token(std::string(" "), false, input)};
+  const auto result {calculate(tokens)};
+
+  std::cout << "\"" << input << " = " << result << "\"" << std::endl;
 }
